@@ -22,8 +22,9 @@ import (
 
 const startCommand = "$HOME/ttyd/bin/ttyd --port 63777 --writable --cwd"
 
+// OpenBrowserTerminal starts a browser-based terminal and opens it in the browser
 func OpenBrowserTerminal(activeProfile config.Profile, workspaceId string, projectName string, gpgKey string) error {
-	// Make sure SSH config exists
+	// Ensure SSH config exists
 	err := config.EnsureSshConfigEntryAdded(activeProfile.Id, workspaceId, projectName, gpgKey)
 	if err != nil {
 		return err
@@ -32,7 +33,7 @@ func OpenBrowserTerminal(activeProfile config.Profile, workspaceId string, proje
 	views.RenderInfoMessageBold("Downloading Terminal Server...")
 	projectHostname := config.GetProjectHostname(activeProfile.Id, workspaceId, projectName)
 
-	// Download and start ttyd
+	// Download and install ttyd
 	installServerCommand := exec.Command("ssh", projectHostname, "curl -fsSL https://download.daytona.io/daytona/tools/get-ttyd.sh | sh")
 	installServerCommand.Stdout = io.Writer(&util.DebugLogWriter{})
 	installServerCommand.Stderr = io.Writer(&util.DebugLogWriter{})
@@ -86,10 +87,10 @@ func OpenBrowserTerminal(activeProfile config.Profile, workspaceId string, proje
 
 	for {
 		err := <-errChan
-		if err != nil {
-			// Log only in debug mode
-			// Connection errors to the forwarded port should not exit the process
-			log.Debug(err)
+			if err != nil {
+				// Log only in debug mode
+				// Connection errors to the forwarded port should not exit the process
+				log.Debug(err)
 		}
 	}
 }
