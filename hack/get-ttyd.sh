@@ -39,7 +39,7 @@ target_file="$HOME/ttyd-$arch"
 if command -v wget &>/dev/null; then
   wget -O "$target_file" "$download_url"
 elif command -v curl &>/dev/null; then
-  curl -L -o "$target_file" "$download_url"
+  curl -fsSL -o "$target_file" "$download_url"
 else
   echo "Neither wget nor curl is available. Please install one of them."
   exit 1
