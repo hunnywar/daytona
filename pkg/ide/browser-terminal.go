@@ -33,7 +33,7 @@ func OpenBrowserTerminal(activeProfile config.Profile, workspaceId string, proje
 	projectHostname := config.GetProjectHostname(activeProfile.Id, workspaceId, projectName)
 
 	// Download and start ttyd
-	installServerCommand := exec.Command("ssh", projectHostname, "curl -fsSL https://download.daytona.io/daytona/get-ttyd.sh | sh")
+	installServerCommand := exec.Command("ssh", projectHostname, "curl -fsSL https://download.daytona.io/daytona/tools/get-ttyd.sh | sh")
 	installServerCommand.Stdout = io.Writer(&util.DebugLogWriter{})
 	installServerCommand.Stderr = io.Writer(&util.DebugLogWriter{})
 
@@ -74,7 +74,7 @@ func OpenBrowserTerminal(activeProfile config.Profile, workspaceId string, proje
 		if ports.IsPortReady(*browserPort) {
 			break
 		}
-		time.Sleep(500 * time.Millisecond)
+		time.Sleep(100 * time.Millisecond)
 	}
 
 	views.RenderInfoMessageBold(fmt.Sprintf("Forwarded %s Terminal port to %s.\nOpening browser...\n", projectName, ideURL))
