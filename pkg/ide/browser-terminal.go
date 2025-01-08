@@ -87,10 +87,10 @@ func OpenBrowserTerminal(activeProfile config.Profile, workspaceId string, proje
 
 	for {
 		err := <-errChan
-			if err != nil {
-				// Log only in debug mode
-				// Connection errors to the forwarded port should not exit the process
-				log.Debug(err)
+		if err != nil {
+			// Log only in debug mode
+			// Connection errors to the forwarded port should not exit the process
+			log.Debug(err)
 		}
 	}
 }
