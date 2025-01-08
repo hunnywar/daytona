@@ -30,8 +30,18 @@ else
   exit 1
 fi
 
+# Check for wget or curl and use the available tool to download the binary
+if command -v wget &>/dev/null; then
+  downloader="wget"
+elif command -v curl &>/dev/null; then
+  downloader="curl -L"
+else
+  echo "Neither wget nor curl is available. Please install one of them."
+  exit 1
+fi
+
 # Download and set up ttyd
-wget https://github.com/$RELEASE_ORG/ttyd/releases/download/$RELEASE_TAG/ttyd.$arch -O $HOME/ttyd-$arch
+$downloader https://github.com/$RELEASE_ORG/ttyd/releases/download/$RELEASE_TAG/ttyd.$arch -O $HOME/ttyd-$arch
 chmod +x $HOME/ttyd-$arch
 
 # Move ttyd to installation directory
