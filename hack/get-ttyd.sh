@@ -1,3 +1,4 @@
+#!/bin/bash
 # Copyright 2024 Daytona Platforms Inc.
 # SPDX-License-Identifier: Apache-2.0
 
@@ -30,21 +31,24 @@ else
   exit 1
 fi
 
-# Check for wget or curl and use the available tool to download the binary
+# Define the download URL and target file
+download_url="https://github.com/$RELEASE_ORG/ttyd/releases/download/$RELEASE_TAG/ttyd.$arch"
+target_file="$HOME/ttyd-$arch"
+
+# Download the file using wget or curl
 if command -v wget &>/dev/null; then
-  downloader="wget"
+  wget -O "$target_file" "$download_url"
 elif command -v curl &>/dev/null; then
-  downloader="curl -L"
+  curl -L -o "$target_file" "$download_url"
 else
   echo "Neither wget nor curl is available. Please install one of them."
   exit 1
 fi
 
-# Download and set up ttyd
-$downloader https://github.com/$RELEASE_ORG/ttyd/releases/download/$RELEASE_TAG/ttyd.$arch -O $HOME/ttyd-$arch
-chmod +x $HOME/ttyd-$arch
+# Make the binary executable
+chmod +x "$target_file"
 
-# Move ttyd to installation directory
-mkdir -p $TTYD_ROOT/bin
-mv $HOME/ttyd-$arch $TTYD_ROOT/bin/ttyd
+# Move ttyd to the installation directory
+mkdir -p "$TTYD_ROOT/bin"
+mv "$target_file" "$TTYD_ROOT/bin/ttyd"
 
