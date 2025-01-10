@@ -30,6 +30,7 @@ func GetIdeList() []Ide {
 		{"cursor", "Cursor"},
 		{"codium", "VSCodium"},
 		{"ssh", "Terminal SSH"},
+		{"vim", "Vim"},
 		{"jupyter", "Jupyter"},
 		{"fleet", "Fleet"},
 		{"zed", "Zed"},
